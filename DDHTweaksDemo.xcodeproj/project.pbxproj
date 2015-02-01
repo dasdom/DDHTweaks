@@ -12,18 +12,9 @@
 		F2FA76711A73CEE900D7B952 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2FA766F1A73CEE900D7B952 /* Main.storyboard */; };
 		F2FA76731A73CEE900D7B952 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2FA76721A73CEE900D7B952 /* Images.xcassets */; };
 		F2FA76761A73CEE900D7B952 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2FA76741A73CEE900D7B952 /* LaunchScreen.xib */; };
-		F2FA76821A73CEE900D7B952 /* DDHTweaksDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA76811A73CEE900D7B952 /* DDHTweaksDemoTests.swift */; };
+		F2FA768C1A73D1B000D7B952 /* DDHTweaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA768B1A73D1B000D7B952 /* DDHTweaks.swift */; };
+		F2FA768E1A73D4CE00D7B952 /* DDHTweakUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA768D1A73D4CE00D7B952 /* DDHTweakUserInterface.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		F2FA767C1A73CEE900D7B952 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2FA765E1A73CEE900D7B952 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F2FA76651A73CEE900D7B952;
-			remoteInfo = DDHTweaksDemo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F2FA76661A73CEE900D7B952 /* DDHTweaksDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDHTweaksDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,20 +24,12 @@
 		F2FA76701A73CEE900D7B952 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F2FA76721A73CEE900D7B952 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F2FA76751A73CEE900D7B952 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		F2FA767B1A73CEE900D7B952 /* DDHTweaksDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DDHTweaksDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2FA76801A73CEE900D7B952 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2FA76811A73CEE900D7B952 /* DDHTweaksDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDHTweaksDemoTests.swift; sourceTree = "<group>"; };
+		F2FA768B1A73D1B000D7B952 /* DDHTweaks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DDHTweaks.swift; sourceTree = "<group>"; };
+		F2FA768D1A73D4CE00D7B952 /* DDHTweakUserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DDHTweakUserInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F2FA76631A73CEE900D7B952 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F2FA76781A73CEE900D7B952 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,7 +43,6 @@
 			isa = PBXGroup;
 			children = (
 				F2FA76681A73CEE900D7B952 /* DDHTweaksDemo */,
-				F2FA767E1A73CEE900D7B952 /* DDHTweaksDemoTests */,
 				F2FA76671A73CEE900D7B952 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,7 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				F2FA76661A73CEE900D7B952 /* DDHTweaksDemo.app */,
-				F2FA767B1A73CEE900D7B952 /* DDHTweaksDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,6 +60,8 @@
 			children = (
 				F2FA766B1A73CEE900D7B952 /* AppDelegate.swift */,
 				F2FA766D1A73CEE900D7B952 /* ViewController.swift */,
+				F2FA768B1A73D1B000D7B952 /* DDHTweaks.swift */,
+				F2FA768D1A73D4CE00D7B952 /* DDHTweakUserInterface.swift */,
 				F2FA766F1A73CEE900D7B952 /* Main.storyboard */,
 				F2FA76721A73CEE900D7B952 /* Images.xcassets */,
 				F2FA76741A73CEE900D7B952 /* LaunchScreen.xib */,
@@ -91,23 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				F2FA766A1A73CEE900D7B952 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		F2FA767E1A73CEE900D7B952 /* DDHTweaksDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				F2FA76811A73CEE900D7B952 /* DDHTweaksDemoTests.swift */,
-				F2FA767F1A73CEE900D7B952 /* Supporting Files */,
-			);
-			path = DDHTweaksDemoTests;
-			sourceTree = "<group>";
-		};
-		F2FA767F1A73CEE900D7B952 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				F2FA76801A73CEE900D7B952 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -132,24 +98,6 @@
 			productReference = F2FA76661A73CEE900D7B952 /* DDHTweaksDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F2FA767A1A73CEE900D7B952 /* DDHTweaksDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F2FA76881A73CEE900D7B952 /* Build configuration list for PBXNativeTarget "DDHTweaksDemoTests" */;
-			buildPhases = (
-				F2FA76771A73CEE900D7B952 /* Sources */,
-				F2FA76781A73CEE900D7B952 /* Frameworks */,
-				F2FA76791A73CEE900D7B952 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F2FA767D1A73CEE900D7B952 /* PBXTargetDependency */,
-			);
-			name = DDHTweaksDemoTests;
-			productName = DDHTweaksDemoTests;
-			productReference = F2FA767B1A73CEE900D7B952 /* DDHTweaksDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -161,10 +109,6 @@
 				TargetAttributes = {
 					F2FA76651A73CEE900D7B952 = {
 						CreatedOnToolsVersion = 6.2;
-					};
-					F2FA767A1A73CEE900D7B952 = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = F2FA76651A73CEE900D7B952;
 					};
 				};
 			};
@@ -182,7 +126,6 @@
 			projectRoot = "";
 			targets = (
 				F2FA76651A73CEE900D7B952 /* DDHTweaksDemo */,
-				F2FA767A1A73CEE900D7B952 /* DDHTweaksDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,13 +141,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F2FA76791A73CEE900D7B952 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -214,26 +150,12 @@
 			files = (
 				F2FA766E1A73CEE900D7B952 /* ViewController.swift in Sources */,
 				F2FA766C1A73CEE900D7B952 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F2FA76771A73CEE900D7B952 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F2FA76821A73CEE900D7B952 /* DDHTweaksDemoTests.swift in Sources */,
+				F2FA768E1A73D4CE00D7B952 /* DDHTweakUserInterface.swift in Sources */,
+				F2FA768C1A73D1B000D7B952 /* DDHTweaks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F2FA767D1A73CEE900D7B952 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F2FA76651A73CEE900D7B952 /* DDHTweaksDemo */;
-			targetProxy = F2FA767C1A73CEE900D7B952 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F2FA766F1A73CEE900D7B952 /* Main.storyboard */ = {
@@ -352,40 +274,6 @@
 			};
 			name = Release;
 		};
-		F2FA76891A73CEE900D7B952 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DDHTweaksDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DDHTweaksDemo.app/DDHTweaksDemo";
-			};
-			name = Debug;
-		};
-		F2FA768A1A73CEE900D7B952 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DDHTweaksDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DDHTweaksDemo.app/DDHTweaksDemo";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -403,14 +291,6 @@
 			buildConfigurations = (
 				F2FA76861A73CEE900D7B952 /* Debug */,
 				F2FA76871A73CEE900D7B952 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		F2FA76881A73CEE900D7B952 /* Build configuration list for PBXNativeTarget "DDHTweaksDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F2FA76891A73CEE900D7B952 /* Debug */,
-				F2FA768A1A73CEE900D7B952 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
