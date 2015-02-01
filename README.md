@@ -51,13 +51,19 @@ let text = Tweak.valueForCategory("Main View", collectionName: "Text", name: "Te
 label.text = text
 
 ```
-
-The author
-----------
+## Author
 
 Dominik Hauser
 
-Visit my [blog](http://dasdev.de) or follow me on [Twitter](http://twitter.com/dasdom) or [App.net](http://alpha.app.net/dasdom).
+[App.net: @dasdom](https://alpha.app.net/dasdom)
+
+[Twitter: @dasdom](https://twitter.com/dasdom)
+
+[swiftandpainless.com](http://swiftandpainless.com)
+
+## Thanks
+
+Thanks to facebook for the Objective-C version of Tweaks that I used as inspiration.
 
 Licence
 -------
