@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class ShakeableWindow: UIWindow {
   
@@ -136,6 +137,13 @@ class CategoriesTableViewController: UITableViewController {
     }
     
     println("\(messageBody)")
+    
+    let mailController = MFMailComposeViewController()
+    mailController.setSubject("Tweaks")
+    mailController.setMessageBody(messageBody, isHTML: false)
+    
+    presentViewController(mailController, animated: true, completion: nil)
+
   }
 }
 
