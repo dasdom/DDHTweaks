@@ -163,7 +163,7 @@ public class DDHTweak<T: Any> {
     
     let collection = collectionWithName(collection, categoryName: category)
     
-    var tweak = collection.tweakWithIdentifier(identifier) as DDHTweak?
+    var tweak = collection.tweakWithIdentifier(identifier) as? DDHTweak
     if tweak == nil {
       tweak = DDHTweak(identifier: identifier, name: name, defaultValue: defaultValue) as DDHTweak!
       

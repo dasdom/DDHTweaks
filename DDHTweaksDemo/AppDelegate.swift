@@ -11,7 +11,16 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-  var window = ShakeableWindow(frame: UIScreen.mainScreen().bounds)
+     var window: UIWindow? {
+        get {
+            return _window
+        }
+        set {
+            fatalError("Can not set window")
+        }
+    }
+    
+  let _window = ShakeableWindow(frame: UIScreen.mainScreen().bounds)
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool { return true }
 }

@@ -85,12 +85,15 @@ class CategoriesTableViewController: UITableViewController {
   
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("Category", forIndexPath: indexPath) as UITableViewCell
+    if let cell = tableView.dequeueReusableCellWithIdentifier("Category", forIndexPath: indexPath) as? UITableViewCell {
     
     let category = categories[indexPath.row]
     cell.textLabel?.text = category.name
     
     return cell
+    } else {
+        return UITableViewCell()
+    }
   }
   
   // MARK: - UITableViewDelegate
@@ -191,16 +194,15 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
     
     let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
     println("tweak: \(tweak)")
-    if let tweak = tweak as? DDHTweak<Int> {
+    if let tweak = tweak as? DDHTweak<Int>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell {
       println("Tweak<Int>: currentValue \(tweak.currentValue)")
-      let stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as StepperTableViewCell
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = Double(tweak.currentValue!)
       stepperCell.stepper.stepValue = 1
       cell = stepperCell
-    } else if let tweak = tweak as? DDHTweak<Float> {
+    } else if let tweak = tweak as? DDHTweak<Float>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell
+ {
       println("Tweak<Float>: currentValue \(tweak.currentValue)")
-      let stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as StepperTableViewCell
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = Double(tweak.currentValue!)
       stepperCell.stepper.stepValue = 0.01
@@ -210,23 +212,20 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       //            configStepperCell(cell, tweak: tweak)
       //            cell.stepper.value = Double(tweak.currentValue!)
       //            cell.stepper.stepValue = 0.01
-    } else if let tweak = tweak as? DDHTweak<Double> {
+    } else if let tweak = tweak as? DDHTweak<Double>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell {
       println("Tweak<Double>: currentValue \(tweak.currentValue)")
-      let stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as StepperTableViewCell
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = tweak.currentValue!
       stepperCell.stepper.stepValue = 0.01
       cell = stepperCell
-    } else if let tweak = tweak as? DDHTweak<Bool> {
+    } else if let tweak = tweak as? DDHTweak<Bool>, switchCell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as? SwitchTableViewCell {
       println("Tweak<Bool>: currentValue \(tweak.currentValue)")
-      let switchCell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as SwitchTableViewCell
       switchCell.nameLabel.text = tweak.name
       switchCell.valueSwitch.on = tweak.currentValue!
       switchCell.valueSwitch.addTarget(self, action: "changeBoolValue:", forControlEvents: .ValueChanged)
       cell = switchCell
-    } else if let tweak = tweak as? DDHTweak<UIColor> {
+    } else if let tweak = tweak as? DDHTweak<UIColor>, colorCell = tableView.dequeueReusableCellWithIdentifier("ColorCell", forIndexPath: indexPath) as? ColorTableViewCell {
       println("Tweak<UIColor>: currentValue \(tweak.currentValue)")
-      let colorCell = tableView.dequeueReusableCellWithIdentifier("ColorCell", forIndexPath: indexPath) as ColorTableViewCell
       colorCell.nameLabel.text = tweak.name
       if let hexString = tweak.currentValue?.hexString() {
         colorCell.textField.text = hexString
@@ -235,9 +234,8 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       colorCell.textField.tag = 100
       colorCell.textField.delegate = self
       cell = colorCell
-    } else if let tweak = tweak as? DDHTweak<String> {
+    } else if let tweak = tweak as? DDHTweak<String>, stringCell = tableView.dequeueReusableCellWithIdentifier("StringCell", forIndexPath: indexPath) as? StringTableViewCell {
       println("Tweak<String>: currentValue \(tweak.currentValue)")
-      let stringCell = tableView.dequeueReusableCellWithIdentifier("StringCell", forIndexPath: indexPath) as StringTableViewCell
       stringCell.nameLabel.text = tweak.name
       if let string = tweak.currentValue {
         stringCell.textField.text = string
@@ -294,14 +292,14 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       let hexString: NSString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
       
       if hexString.length == 6 {
-        let scanner = NSScanner(string: hexString)
+        let scanner = NSScanner(string: hexString as String)
         
         var value = UInt32()
         if scanner.scanHexInt(&value) {
           if let indexPath = indexPathForCellSubView(textField) {
             let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
             if let tweak = tweak as? DDHTweak<UIColor> {
-              tweak.currentValue = UIColor.colorFromHex(hexString)
+              tweak.currentValue = UIColor.colorFromHex(hexString as String)
             }
             tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
           }
@@ -316,7 +314,7 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       if let indexPath = indexPathForCellSubView(textField) {
         let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
         if let tweak = tweak as? DDHTweak<String> {
-          tweak.currentValue = theString
+          tweak.currentValue = theString as String
         }
       }
     default:
