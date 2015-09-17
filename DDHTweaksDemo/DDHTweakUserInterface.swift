@@ -9,6 +9,19 @@
 import UIKit
 import MessageUI
 
+/* http://stackoverflow.com/a/30404532 */
+extension String {
+    func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
+        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+        if let from = String.Index(from16, within: self),
+            let to = String.Index(to16, within: self) {
+                return from ..< to
+        }
+        return nil
+    }
+}
+
 class ShakeableWindow: UIWindow {
   
   var isShaking = false
@@ -289,17 +302,18 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     switch textField.tag {
     case 100:
-      let hexString: NSString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-      
-      if hexString.length == 6 {
-        let scanner = NSScanner(string: hexString as String)
+            if let range = textField.text?.rangeFromNSRange(range),
+            hexString = textField.text?.stringByReplacingCharactersInRange(range, withString: string)
+            where hexString.characters.count == 6 {
+                
+        let scanner = NSScanner(string: hexString)
         
         var value = UInt32()
         if scanner.scanHexInt(&value) {
           if let indexPath = indexPathForCellSubView(textField) {
             let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
             if let tweak = tweak as? DDHTweak<UIColor> {
-              tweak.currentValue = UIColor.colorFromHex(hexString as String)
+              tweak.currentValue = UIColor.colorFromHex(hexString)
             }
             tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
           }
@@ -308,13 +322,14 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
           //                textField.textColor = UIColor.redColor()
         }
       }
+
     case 101:
-      let theString: NSString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-      
-      if let indexPath = indexPathForCellSubView(textField) {
+        if let range = textField.text?.rangeFromNSRange(range),
+        theString = textField.text?.stringByReplacingCharactersInRange(range, withString: string),
+        indexPath = indexPathForCellSubView(textField) {
         let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
         if let tweak = tweak as? DDHTweak<String> {
-          tweak.currentValue = theString as String
+          tweak.currentValue = theString
         }
       }
     default:
@@ -379,8 +394,8 @@ class StepperTableViewCell: UITableViewCell {
     contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel(valueLabel)]|", options: [], metrics: nil, views: views))
   }
   
-  required init?(coder aDecoder: NSCoder) {
-    return nil
+  required init(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setSelected(selected: Bool, animated: Bool) {
@@ -420,7 +435,7 @@ class SwitchTableViewCell: UITableViewCell {
   }
   
   required init?(coder aDecoder: NSCoder) {
-    return nil
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setSelected(selected: Bool, animated: Bool) {
@@ -471,7 +486,7 @@ class ColorTableViewCell: UITableViewCell {
   }
   
   required init?(coder aDecoder: NSCoder) {
-    return nil
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func awakeFromNib() {
@@ -517,7 +532,7 @@ class StringTableViewCell: UITableViewCell {
   }
   
   required init?(coder aDecoder: NSCoder) {
-    return nil
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func awakeFromNib() {
