@@ -104,6 +104,8 @@
 		F2FA765E1A73CEE900D7B952 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Dominik Hauser";
 				TargetAttributes = {
@@ -293,6 +295,7 @@
 				F2FA76871A73CEE900D7B952 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
