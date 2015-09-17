@@ -13,7 +13,7 @@ class ShakeableWindow: UIWindow {
   
   var isShaking = false
   
-  override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
+  override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent?) {
     if motion == UIEventSubtype.MotionShake {
       isShaking = true
       let sec = 0.4 * Float(NSEC_PER_SEC)
@@ -25,7 +25,7 @@ class ShakeableWindow: UIWindow {
     }
   }
   
-  override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+  override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
     isShaking = false
   }
   
@@ -131,7 +131,7 @@ class CategoriesTableViewController: UITableViewController {
           case let tweak as DDHTweak<UIColor>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!.hexString())\n"
           default:
-            println("")
+            print("")
           }
         }
         messageBody += "\n"
@@ -139,7 +139,7 @@ class CategoriesTableViewController: UITableViewController {
       messageBody += "\n"
     }
     
-    println("\(messageBody)")
+    print("\(messageBody)")
     
     let mailController = MFMailComposeViewController()
     mailController.setSubject("Tweaks")
@@ -193,16 +193,16 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
     var cell: UITableViewCell?
     
     let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
-    println("tweak: \(tweak)")
+    print("tweak: \(tweak)")
     if let tweak = tweak as? DDHTweak<Int>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell {
-      println("Tweak<Int>: currentValue \(tweak.currentValue)")
+      print("Tweak<Int>: currentValue \(tweak.currentValue)")
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = Double(tweak.currentValue!)
       stepperCell.stepper.stepValue = 1
       cell = stepperCell
     } else if let tweak = tweak as? DDHTweak<Float>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell
  {
-      println("Tweak<Float>: currentValue \(tweak.currentValue)")
+      print("Tweak<Float>: currentValue \(tweak.currentValue)")
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = Double(tweak.currentValue!)
       stepperCell.stepper.stepValue = 0.01
@@ -213,19 +213,19 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       //            cell.stepper.value = Double(tweak.currentValue!)
       //            cell.stepper.stepValue = 0.01
     } else if let tweak = tweak as? DDHTweak<Double>, stepperCell = tableView.dequeueReusableCellWithIdentifier("StepperCell", forIndexPath: indexPath) as? StepperTableViewCell {
-      println("Tweak<Double>: currentValue \(tweak.currentValue)")
+      print("Tweak<Double>: currentValue \(tweak.currentValue)")
       configStepperCell(stepperCell, tweak: tweak)
       stepperCell.stepper.value = tweak.currentValue!
       stepperCell.stepper.stepValue = 0.01
       cell = stepperCell
     } else if let tweak = tweak as? DDHTweak<Bool>, switchCell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as? SwitchTableViewCell {
-      println("Tweak<Bool>: currentValue \(tweak.currentValue)")
+      print("Tweak<Bool>: currentValue \(tweak.currentValue)")
       switchCell.nameLabel.text = tweak.name
       switchCell.valueSwitch.on = tweak.currentValue!
       switchCell.valueSwitch.addTarget(self, action: "changeBoolValue:", forControlEvents: .ValueChanged)
       cell = switchCell
     } else if let tweak = tweak as? DDHTweak<UIColor>, colorCell = tableView.dequeueReusableCellWithIdentifier("ColorCell", forIndexPath: indexPath) as? ColorTableViewCell {
-      println("Tweak<UIColor>: currentValue \(tweak.currentValue)")
+      print("Tweak<UIColor>: currentValue \(tweak.currentValue)")
       colorCell.nameLabel.text = tweak.name
       if let hexString = tweak.currentValue?.hexString() {
         colorCell.textField.text = hexString
@@ -235,7 +235,7 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       colorCell.textField.delegate = self
       cell = colorCell
     } else if let tweak = tweak as? DDHTweak<String>, stringCell = tableView.dequeueReusableCellWithIdentifier("StringCell", forIndexPath: indexPath) as? StringTableViewCell {
-      println("Tweak<String>: currentValue \(tweak.currentValue)")
+      print("Tweak<String>: currentValue \(tweak.currentValue)")
       stringCell.nameLabel.text = tweak.name
       if let string = tweak.currentValue {
         stringCell.textField.text = string
@@ -244,7 +244,7 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
       stringCell.textField.delegate = self
       cell = stringCell
     } else {
-      println("tweak is something else")
+      print("tweak is something else")
     }
     
     return cell!
@@ -332,7 +332,7 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
   func indexPathForCellSubView(view: UIView) -> NSIndexPath? {
     let convertedPoint = view.superview!.convertPoint(view.center, toView: tableView)
     let indexPath = tableView.indexPathForRowAtPoint(convertedPoint)
-    println("indexPath \(indexPath)")
+    print("indexPath \(indexPath)")
     return indexPath
   }
   
@@ -352,19 +352,19 @@ class StepperTableViewCell: UITableViewCell {
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     nameLabel = {
       let label = UILabel()
-      label.setTranslatesAutoresizingMaskIntoConstraints(false)
+      label.translatesAutoresizingMaskIntoConstraints = false
       return label
       }()
     
     valueLabel = {
       let label = UILabel()
-      label.setTranslatesAutoresizingMaskIntoConstraints(false)
+      label.translatesAutoresizingMaskIntoConstraints = false
       return label
       }()
     
     stepper = {
       let stepper = UIStepper()
-      stepper.setTranslatesAutoresizingMaskIntoConstraints(false)
+      stepper.translatesAutoresizingMaskIntoConstraints = false
       return stepper
       }()
     
@@ -376,11 +376,11 @@ class StepperTableViewCell: UITableViewCell {
     
     let views = ["nameLabel" : nameLabel, "valueLabel" : valueLabel, "stepper" : stepper]
     contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-10-[nameLabel]-5-[valueLabel]-5-[stepper]-10-|", options:  NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views))
-    contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel(valueLabel)]|", options: nil, metrics: nil, views: views))
+    contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel(valueLabel)]|", options: [], metrics: nil, views: views))
   }
   
-  required init(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    return nil
   }
   
   override func setSelected(selected: Bool, animated: Bool) {
@@ -399,13 +399,13 @@ class SwitchTableViewCell: UITableViewCell {
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     nameLabel = {
       let label = UILabel()
-      label.setTranslatesAutoresizingMaskIntoConstraints(false)
+      label.translatesAutoresizingMaskIntoConstraints = false
       return label
       }()
     
     valueSwitch = {
       let valueSwitch = UISwitch()
-      valueSwitch.setTranslatesAutoresizingMaskIntoConstraints(false)
+      valueSwitch.translatesAutoresizingMaskIntoConstraints = false
       return valueSwitch
       }()
     
@@ -416,11 +416,11 @@ class SwitchTableViewCell: UITableViewCell {
     
     let views = ["nameLabel" : nameLabel, "valueSwitch" : valueSwitch]
     contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-10-[nameLabel]-5-[valueSwitch]-10-|", options: .AlignAllCenterY, metrics: nil, views: views))
-    contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel]|", options: nil, metrics: nil, views: views))
+    contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel]|", options: [], metrics: nil, views: views))
   }
   
-  required init(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    return nil
   }
   
   override func setSelected(selected: Bool, animated: Bool) {
@@ -440,20 +440,20 @@ class ColorTableViewCell: UITableViewCell {
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     nameLabel = {
       let label = UILabel()
-      label.setTranslatesAutoresizingMaskIntoConstraints(false)
+      label.translatesAutoresizingMaskIntoConstraints = false
       return label
       }()
     
     textField = {
       let textField = UITextField()
-      textField.setTranslatesAutoresizingMaskIntoConstraints(false)
+      textField.translatesAutoresizingMaskIntoConstraints = false
       textField.textAlignment = .Right
       return textField
       }()
     
     colorView = {
       let colorView = UIView()
-      colorView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      colorView.translatesAutoresizingMaskIntoConstraints = false
       return colorView
       }()
     
@@ -470,8 +470,8 @@ class ColorTableViewCell: UITableViewCell {
     
   }
   
-  required init(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    return nil
   }
   
   override func awakeFromNib() {
@@ -495,13 +495,13 @@ class StringTableViewCell: UITableViewCell {
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     nameLabel = {
       let label = UILabel()
-      label.setTranslatesAutoresizingMaskIntoConstraints(false)
+      label.translatesAutoresizingMaskIntoConstraints = false
       return label
       }()
     
     textField = {
       let textField = UITextField()
-      textField.setTranslatesAutoresizingMaskIntoConstraints(false)
+      textField.translatesAutoresizingMaskIntoConstraints = false
       textField.textAlignment = .Right
       return textField
       }()
@@ -516,8 +516,8 @@ class StringTableViewCell: UITableViewCell {
     contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel]|", options: .AlignAllCenterY, metrics: nil, views: views))
   }
   
-  required init(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    return nil
   }
   
   override func awakeFromNib() {
