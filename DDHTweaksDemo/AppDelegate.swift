@@ -11,7 +11,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-  var window = ShakeableWindow(frame: UIScreen.mainScreen().bounds)
+  var window: UIWindow? = ShakeableWindow(frame: UIScreen.mainScreen().bounds)
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool { return true }
 }
