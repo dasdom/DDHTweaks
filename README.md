@@ -43,16 +43,16 @@ Other examples
 Tweaks without an action have to be run to update the value. This means these tweaks have to be defined in `viewWillAppear()` or `viewDidAppear()`.
 
 ```swift
-let textColor = Tweak.valueForCategory("Main View", collectionName: "Text", name: "Color", defaultValue: UIColor.blackColor())
+let textColor = UIColor.blackColor().tweak("Main View", collection: "Text", name: "Color")
 label.textColor = textColor
-        
-let backgroundColor = Tweak.valueForCategory("Main View", collectionName: "Background", name: "Color", defaultValue: UIColor.whiteColor())
-view.backgroundColor = backgroundColor
-        
-let text = Tweak.valueForCategory("Main View", collectionName: "Text", name: "Text", defaultValue: "Hello")
-label.text = text
 
+let backgroundColor = UIColor.whiteColor().tweak("Main View", collection: "Background", name: "Color")
+view.backgroundColor = backgroundColor
+
+let text = "Hello".tweak("Main View", collection: "Text", name: "Text")
+label.text = text
 ```
+
 ## Author
 
 Dominik Hauser
