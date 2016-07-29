@@ -9,6 +9,19 @@
 import UIKit
 import MessageUI
 
+/* http://stackoverflow.com/a/30404532 */
+extension String {
+    func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
+        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+        if let from = String.Index(from16, within: self),
+            let to = String.Index(to16, within: self) {
+                return from ..< to
+        }
+        return nil
+    }
+}
+
 class ShakeableWindow: UIWindow {
   
   var isShaking = false
@@ -85,7 +98,7 @@ class CategoriesTableViewController: UITableViewController {
   
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("Category", forIndexPath: indexPath) as UITableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier("Category", forIndexPath: indexPath)
     
     let category = categories[indexPath.row]
     cell.textLabel?.text = category.name
@@ -291,10 +304,11 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     switch textField.tag {
     case 100:
-      let hexString: NSString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
-      
-      if hexString.length == 6 {
-        let scanner = NSScanner(string: hexString as String)
+            if let range = textField.text?.rangeFromNSRange(range),
+            hexString = textField.text?.stringByReplacingCharactersInRange(range, withString: string)
+            where hexString.characters.count == 6 {
+                
+        let scanner = NSScanner(string: hexString)
         
         var value = UInt32()
         if scanner.scanHexInt(&value) {
@@ -310,10 +324,11 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
           //                textField.textColor = UIColor.redColor()
         }
       }
+
     case 101:
-      let theString: NSString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
-      
-      if let indexPath = indexPathForCellSubView(textField) {
+        if let range = textField.text?.rangeFromNSRange(range),
+        theString = textField.text?.stringByReplacingCharactersInRange(range, withString: string),
+        indexPath = indexPathForCellSubView(textField) {
         let tweak: AnyObject = collections[indexPath.section].allTweaks()[indexPath.row]
         if let tweak = tweak as? DDHTweak<String> {
           tweak.currentValue = theString as String

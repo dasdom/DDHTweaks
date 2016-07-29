@@ -1,6 +1,8 @@
 # DDHTweaks
 Tweak UI elements at runtime to find the perfect values
 
+![](https://raw.githubusercontent.com/dasdom/DDHTweaks/master/DDHTweaksDemo/what.gif)
+
 What is it?
 -----------
 
