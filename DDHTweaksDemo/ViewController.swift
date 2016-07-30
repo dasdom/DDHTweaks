@@ -14,9 +14,12 @@ class ViewController: UIViewController {
   @IBOutlet weak var button: UIButton!
   
   override func viewDidLoad() {
-    DDHTweak.value(category: "Main View", collection: "Text", name: "Size", defaultValue: 20, min: 10, max: 40) { tweak in
+    20.tweak("Main View", collection: "Text", name: "Size", min: 10, max: 40) { tweak in
       self.label.font = UIFont.systemFontOfSize(CGFloat(tweak.currentValue!))
     }
+//    DDHTweak.value(category: "Main View", collection: "Text", name: "Size", defaultValue: 20, min: 10, max: 40) { tweak in
+//      self.label.font = UIFont.systemFontOfSize(CGFloat(tweak.currentValue!))
+//    }
   }
   
   override func viewWillAppear(animated: Bool) {
