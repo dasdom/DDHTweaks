@@ -366,31 +366,18 @@ extension UIColor {
   
 }
 
+protocol Tweakable {
+    
+}
+
+extension Tweakable {
+    func tweak(category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
+        return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+    }
+}
+
 //MARK: - Extenstions
-extension UIColor {
-  typealias Action = ((DDHTweak<UIColor>) -> ())
-  func tweak(category: String, collection: String, name: String, action: Action? = nil) -> UIColor {
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, action: action)
-  }
-}
-
-extension String {
-  typealias Action = ((DDHTweak<String>) -> ())
-  func tweak(category: String, collection: String, name: String, action: Action? = nil) -> String {
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, action: action)
-  }
-}
-
-extension Bool {
-  typealias Action = ((DDHTweak<Bool>) -> ())
-  func tweak(category: String, collection: String, name: String, action: Action? = nil) -> Bool {
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, action: action)
-  }
-}
-
-extension Int {
-  typealias Action = ((DDHTweak<Int>) -> ())
-  func tweak(category: String, collection: String, name: String, min: Int? = nil, max: Int? = nil, action: Action? = nil) -> Int {
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
-  }
-}
+extension UIColor: Tweakable {}
+extension String: Tweakable {}
+extension Bool: Tweakable {}
+extension Int: Tweakable {}
