@@ -1,7 +1,3 @@
-//
-//  DDHTweaks.swift
-//  DDHTweaksDemo
-//
 //  Created by dasdom on 24.01.15.
 //  Copyright (c) 2015 Dominik Hauser. All rights reserved.
 //
@@ -9,18 +5,18 @@
 import Foundation
 import UIKit
 
-public class DDHTweak<T: Any> {
+open class DDHTweak<T: Any> {
   let tweakIdentifier: String
   let name: String
   
   typealias Action = ((DDHTweak) -> ())
-  private var action: Action?
-  private let defaultValue: T
-  private var storedCurrentValue: T?
+  fileprivate var action: Action?
+  fileprivate let defaultValue: T
+  fileprivate var storedCurrentValue: T?
   
-  private var minimumValue: T?
-  private var maximumValue: T?
-  private var stepValue: T?
+  fileprivate var minimumValue: T?
+  fileprivate var maximumValue: T?
+  fileprivate var stepValue: T?
   
   var currentValue: T? {
     get {
@@ -33,56 +29,64 @@ public class DDHTweak<T: Any> {
         switch newValue {
         case let value as Bool:
           storedCurrentValue = newValue
-          NSUserDefaults.standardUserDefaults().setBool(value, forKey: tweakIdentifier)
+          UserDefaults.standard.set(value, forKey: tweakIdentifier)
           print("Bool")
         case let value as Int:
-          if (minimumValue != nil && value < (minimumValue as? Int)) || (maximumValue != nil && value > (maximumValue as? Int)) {
+          if let minimumValue = minimumValue as? Int, value < minimumValue {
+            print("value out of range")
+          } else if let maximumValue = maximumValue as? Int, value > maximumValue {
             print("value out of range")
           } else {
             storedCurrentValue = newValue
-            NSUserDefaults.standardUserDefaults().setInteger(value, forKey: tweakIdentifier)
+            UserDefaults.standard.set(value, forKey: tweakIdentifier)
           }
           print("Int")
         case let value as Float:
-          if (minimumValue != nil && value < (minimumValue as? Float)) || (maximumValue != nil && value > (maximumValue as? Float)) {
+          if let minimumValue = minimumValue as? Float, value < minimumValue {
+            print("value out of range")
+          } else if let maximumValue = maximumValue as? Float, value > maximumValue {
             print("value out of range")
           } else {
             storedCurrentValue = newValue
-            NSUserDefaults.standardUserDefaults().setFloat(value, forKey: tweakIdentifier)
+            UserDefaults.standard.set(value, forKey: tweakIdentifier)
           }
           print("Float")
         case let value as CGFloat:
-          if (minimumValue != nil && value < (minimumValue as? CGFloat)) || (maximumValue != nil && value > (maximumValue as? CGFloat)) {
+          if let minimumValue = minimumValue as? CGFloat, value < minimumValue {
+            print("value out of range")
+          } else if let maximumValue = maximumValue as? CGFloat, value > maximumValue {
             print("value out of range")
           } else {
             storedCurrentValue = newValue
-            NSUserDefaults.standardUserDefaults().setFloat(Float(value), forKey: tweakIdentifier)
+            UserDefaults.standard.set(Float(value), forKey: tweakIdentifier)
           }
           print("Float")
         case let value as Double:
-          if (minimumValue != nil && value < (minimumValue as? Double)) || (maximumValue != nil && value > (maximumValue as? Double)) {
+          if let minimumValue = minimumValue as? Double, value < minimumValue {
+            print("value out of range")
+          } else if let maximumValue = maximumValue as? Double, value > maximumValue {
             print("value out of range")
           } else {
             storedCurrentValue = newValue
-            NSUserDefaults.standardUserDefaults().setDouble(value, forKey: tweakIdentifier)
+            UserDefaults.standard.set(value, forKey: tweakIdentifier)
           }
           print("Double")
         case let value as String:
           storedCurrentValue = newValue
-          NSUserDefaults.standardUserDefaults().setObject(value, forKey: tweakIdentifier)
+          UserDefaults.standard.set(value, forKey: tweakIdentifier)
           print("String")
         case let value as UIColor:
           storedCurrentValue = newValue
           let stringValue = value.hexString()
-          NSUserDefaults.standardUserDefaults().setObject(stringValue, forKey: tweakIdentifier)
+          UserDefaults.standard.set(stringValue, forKey: tweakIdentifier)
           print("UIColor: \(stringValue)")
         default:
           assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double or String")
         }
         
         let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: valueHasBeenSetKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(true, forKey: valueHasBeenSetKey)
+        UserDefaults.standard.synchronize()
         
         if let action = action {
           action(self)
@@ -97,30 +101,30 @@ public class DDHTweak<T: Any> {
     self.tweakIdentifier = identifier
     self.defaultValue = defaultValue
     self.name = name
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
-    if userDefaults.boolForKey(valueHasBeenSetKey) == true {
+    if userDefaults.bool(forKey: valueHasBeenSetKey) == true {
       if defaultValue is Bool {
-        self.currentValue = NSUserDefaults.standardUserDefaults().boolForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.bool(forKey: identifier) as? T
         print("Bool")
       } else if defaultValue is Int {
-        self.currentValue = NSUserDefaults.standardUserDefaults().integerForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.integer(forKey: identifier) as? T
         print("Int")
       } else if defaultValue is Float {
-        self.currentValue = NSUserDefaults.standardUserDefaults().floatForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.float(forKey: identifier) as? T
         print("Float")
       } else if defaultValue is CGFloat {
-        self.currentValue = NSUserDefaults.standardUserDefaults().floatForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.float(forKey: identifier) as? T
         print("CGFloat")
       } else if defaultValue is Double {
-        self.currentValue = NSUserDefaults.standardUserDefaults().doubleForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.double(forKey: identifier) as? T
         print("Double")
       } else if defaultValue is String {
-        self.currentValue = NSUserDefaults.standardUserDefaults().stringForKey(identifier) as? T
+        self.currentValue = UserDefaults.standard.string(forKey: identifier) as? T
         print("String")
       } else if defaultValue is UIColor {
-        if let hexString = NSUserDefaults.standardUserDefaults().stringForKey(identifier) {
+        if let hexString = UserDefaults.standard.string(forKey: identifier) {
           self.currentValue = UIColor.colorFromHex(hexString) as? T
         }
       } else {
@@ -132,8 +136,8 @@ public class DDHTweak<T: Any> {
   }
   
   func remove() {
-    NSUserDefaults.standardUserDefaults().removeObjectForKey(tweakIdentifier)
-    NSUserDefaults.standardUserDefaults().synchronize()
+    UserDefaults.standard.removeObject(forKey: tweakIdentifier)
+    UserDefaults.standard.synchronize()
   }
   
   //    class func reset() {
@@ -157,7 +161,7 @@ public class DDHTweak<T: Any> {
    
    - returns: the current value or the default value if there is no current value
    */
-  class func value(category category: String, collection: String, name: String, defaultValue: T, min: T? = nil, max: T? = nil, action: Action? = nil) -> T {
+  class func value(category: String, collection: String, name: String, defaultValue: T, min: T? = nil, max: T? = nil, action: Action? = nil) -> T {
     
     let identifier = category + "." + collection + "." + name
     
@@ -195,7 +199,7 @@ public class DDHTweak<T: Any> {
   //
   //    }
   
-  class func collectionWithName(collectionName: String, categoryName: String) -> TweakCollection {
+  class func collectionWithName(_ collectionName: String, categoryName: String) -> TweakCollection {
     let store = TweakStore.sharedTweakStore
     
     var category = store.categoryWithName(categoryName)
@@ -218,7 +222,7 @@ class TweakCollection {
   let name: String
   //    var tweaks = [AnyObject]()
   
-  private var identifierTweaks = [String:AnyObject]()
+  fileprivate var identifierTweaks = [String:AnyObject]()
   
   init(name: String) {
     self.name = name
@@ -232,17 +236,17 @@ class TweakCollection {
     return tweaks
   }
   
-  func addTweak<T>(tweak: DDHTweak<T>) {
+  func addTweak<T>(_ tweak: DDHTweak<T>) {
     //        tweaks.append(tweaks)
     identifierTweaks[tweak.tweakIdentifier] = tweak
   }
   
-  func removeTweak<T>(tweak: DDHTweak<T>) {
+  func removeTweak<T>(_ tweak: DDHTweak<T>) {
     tweak.remove()
-    identifierTweaks.removeValueForKey(tweak.tweakIdentifier)
+    identifierTweaks.removeValue(forKey: tweak.tweakIdentifier)
   }
   
-  func tweakWithIdentifier(identifier: String) -> AnyObject? {
+  func tweakWithIdentifier(_ identifier: String) -> AnyObject? {
     return identifierTweaks[identifier]
   }
 }
@@ -251,7 +255,7 @@ class TweakCollection {
 class TweakCategory {
   let name: String
   
-  private var namedCollection = [String:TweakCollection]()
+  fileprivate var namedCollection = [String:TweakCollection]()
   
   init(name: String) {
     self.name = name
@@ -265,7 +269,7 @@ class TweakCategory {
     return collections
   }
   
-  func addCollection(collection: TweakCollection) {
+  func addCollection(_ collection: TweakCollection) {
     namedCollection[collection.name] = collection
   }
   
@@ -273,7 +277,7 @@ class TweakCategory {
   //    namedCollection.removeValueForKey(collection.name)
   //  }
   
-  func collectionWithName(name: String) -> TweakCollection? {
+  func collectionWithName(_ name: String) -> TweakCollection? {
     return namedCollection[name]
   }
 }
@@ -284,14 +288,14 @@ private let _TweakStoreSharedInstance = TweakStore(name: "DefaultTweakStore")
 /**
  This class is a singleton and it's responsible for storing the tweak categories.
  */
-public class TweakStore {
+open class TweakStore {
   class var sharedTweakStore: TweakStore {
     return _TweakStoreSharedInstance
   }
   
   let name: String
   
-  private var namedCategories = [String:TweakCategory]()
+  fileprivate var namedCategories = [String:TweakCategory]()
   
   init(name: String) {
     self.name = name
@@ -305,11 +309,11 @@ public class TweakStore {
     return categories
   }
   
-  func addCategory(category: TweakCategory) {
+  func addCategory(_ category: TweakCategory) {
     namedCategories[category.name] = category
   }
   
-  func categoryWithName(name: String) -> TweakCategory? {
+  func categoryWithName(_ name: String) -> TweakCategory? {
     return namedCategories[name]
   }
 }
@@ -324,13 +328,13 @@ extension UIColor {
    
    - returns: a UIColor instance
    */
-  class func colorFromHex(hexString: String) -> UIColor {
-    let scanner = NSScanner(string: hexString)
+  class func colorFromHex(_ hexString: String) -> UIColor {
+    let scanner = Scanner(string: hexString)
     
-    scanner.charactersToBeSkipped = NSCharacterSet.alphanumericCharacterSet().invertedSet
+    scanner.charactersToBeSkipped = CharacterSet.alphanumerics.inverted
     
     var value = UInt32()
-    scanner.scanHexInt(&value)
+    scanner.scanHexInt32(&value)
     
     let red: CGFloat = CGFloat((value & 0xFF0000) >> 16) / CGFloat(255.0)
     let green: CGFloat = CGFloat((value & 0xFF00) >> 8) / CGFloat(255.0)
@@ -371,7 +375,7 @@ protocol Tweakable {
 }
 
 extension Tweakable {
-    func tweak(category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
+    func tweak(_ category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
         return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
     }
 }
