@@ -22,11 +22,11 @@ extension String {
   }
 }
 
-class ShakeableWindow: UIWindow {
+public class ShakeableWindow: UIWindow {
   
   var isShaking = false
   
-  override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+  override public func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
     if motion == UIEventSubtype.motionShake {
       isShaking = true
       let sec = 0.4 * Float(NSEC_PER_SEC)
@@ -38,7 +38,7 @@ class ShakeableWindow: UIWindow {
     }
   }
   
-  override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+  override public func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
     isShaking = false
   }
   

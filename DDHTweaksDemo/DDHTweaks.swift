@@ -18,7 +18,7 @@ public class DDHTweak<T: Tweakable> {
   fileprivate var maximumValue: T?
   fileprivate var stepValue: T?
   
-  var currentValue: T? {
+  public var currentValue: T? {
     get {
       return self.storedCurrentValue ?? defaultValue
     }
