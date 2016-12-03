@@ -386,6 +386,8 @@ class StepperTableViewCell: UITableViewCell {
     
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    selectionStyle = .none
+    
     contentView.addSubview(nameLabel)
     contentView.addSubview(valueLabel)
     contentView.addSubview(stepper)
@@ -427,6 +429,8 @@ class SwitchTableViewCell: UITableViewCell {
     
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    selectionStyle = .none
+
     contentView.addSubview(nameLabel)
     contentView.addSubview(valueSwitch)
     
@@ -475,6 +479,8 @@ class ColorTableViewCell: UITableViewCell {
     
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    selectionStyle = .none
+
     contentView.addSubview(nameLabel)
     contentView.addSubview(textField)
     contentView.addSubview(colorView)
@@ -524,6 +530,8 @@ class StringTableViewCell: UITableViewCell {
     
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    selectionStyle = .none
+
     contentView.addSubview(nameLabel)
     contentView.addSubview(textField)
     

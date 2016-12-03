@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-open class DDHTweak<T: Any> {
+public class DDHTweak<T: Tweakable> {
   let tweakIdentifier: String
   let name: String
   
@@ -24,78 +24,33 @@ open class DDHTweak<T: Any> {
     }
     set {
       print("newValue: \(newValue), min \(minimumValue), max \(maximumValue)")
-      if newValue != nil {
-        
-        switch newValue {
-        case let value as Bool:
-          storedCurrentValue = newValue
-          UserDefaults.standard.set(value, forKey: tweakIdentifier)
-          print("Bool")
-        case let value as Int:
-          if let minimumValue = minimumValue as? Int, value < minimumValue {
-            print("value out of range")
-          } else if let maximumValue = maximumValue as? Int, value > maximumValue {
-            print("value out of range")
-          } else {
-            storedCurrentValue = newValue
-            UserDefaults.standard.set(value, forKey: tweakIdentifier)
-          }
-          print("Int")
-        case let value as Float:
-          if let minimumValue = minimumValue as? Float, value < minimumValue {
-            print("value out of range")
-          } else if let maximumValue = maximumValue as? Float, value > maximumValue {
-            print("value out of range")
-          } else {
-            storedCurrentValue = newValue
-            UserDefaults.standard.set(value, forKey: tweakIdentifier)
-          }
-          print("Float")
-        case let value as CGFloat:
-          if let minimumValue = minimumValue as? CGFloat, value < minimumValue {
-            print("value out of range")
-          } else if let maximumValue = maximumValue as? CGFloat, value > maximumValue {
-            print("value out of range")
-          } else {
-            storedCurrentValue = newValue
-            UserDefaults.standard.set(Float(value), forKey: tweakIdentifier)
-          }
-          print("Float")
-        case let value as Double:
-          if let minimumValue = minimumValue as? Double, value < minimumValue {
-            print("value out of range")
-          } else if let maximumValue = maximumValue as? Double, value > maximumValue {
-            print("value out of range")
-          } else {
-            storedCurrentValue = newValue
-            UserDefaults.standard.set(value, forKey: tweakIdentifier)
-          }
-          print("Double")
-        case let value as String:
-          storedCurrentValue = newValue
-          UserDefaults.standard.set(value, forKey: tweakIdentifier)
-          print("String")
-        case let value as UIColor:
-          storedCurrentValue = newValue
-          let stringValue = value.hexString()
-          UserDefaults.standard.set(stringValue, forKey: tweakIdentifier)
-          print("UIColor: \(stringValue)")
-        default:
-          assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double or String")
-        }
-        
-        let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
-        UserDefaults.standard.set(true, forKey: valueHasBeenSetKey)
-        UserDefaults.standard.synchronize()
-        
-        if let action = action {
-          action(self)
-        }
+      
+      guard let value = newValue, value.isValid(min: minimumValue, max: maximumValue) else {
+        return
+      }
+      switch newValue {
+      case is Bool: fallthrough
+      case is Int: fallthrough
+      case is Float: fallthrough
+      case is CGFloat: fallthrough
+      case is Double: fallthrough
+      case is String: fallthrough
+      case is UIColor:
+        storedCurrentValue = newValue
+        value.store(key: tweakIdentifier)
+      default:
+        assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double or String")
+      }
+      
+      let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
+      UserDefaults.standard.set(true, forKey: valueHasBeenSetKey)
+      UserDefaults.standard.synchronize()
+      
+      if let action = action {
+        action(self)
       }
     }
   }
-  
-  
   
   init(identifier: String, name: String, defaultValue: T) {
     self.tweakIdentifier = identifier
@@ -163,7 +118,7 @@ open class DDHTweak<T: Any> {
    */
   class func value(category: String, collection: String, name: String, defaultValue: T, min: T? = nil, max: T? = nil, action: Action? = nil) -> T {
     
-    let identifier = category + "." + collection + "." + name
+    let identifier = category + "." + collection + "." + (name.isEmpty ? String(describing: type(of: defaultValue)) : name)
     
     let collection = collectionWithName(collection, categoryName: category)
     
@@ -370,18 +325,105 @@ extension UIColor {
   
 }
 
-protocol Tweakable {
-    
+public protocol Tweakable {
+  func isValid(min: Self?, max: Self?) -> Bool
+  func store(key: String)
+  //  func tweak(_ category: String, collection: String, name: String, min: Self?, max: Self?, action: ((DDHTweak<Self>) -> Void)?) -> Self
 }
 
-extension Tweakable {
-    func tweak(_ category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
-        return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+public extension Tweakable {
+  func isValid(min: Self?, max: Self?) -> Bool {
+    return true
+  }
+  
+  public func store(key: String) {
+    UserDefaults.standard.set(self, forKey: key)
+  }
+  
+  @discardableResult func tweak(_ category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
+    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+  }
+  
+  @discardableResult func tweak(_ id: String, file: String = #file, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
+    
+    guard !id.isEmpty else { fatalError("id is not allowed to be empty") }
+    let components = id.components(separatedBy: "/")
+    let category: String
+    let collection: String
+    let name: String
+    if components.count > 2 {
+      category = components[0]
+      collection = components[1]
+      name = components[2]
+    } else if components.count > 1 {
+      let className = file.components(separatedBy: "/").last
+      category = className ?? "Default"
+      collection = components[0]
+      name = components[1]
+    } else {
+      let className = file.components(separatedBy: "/").last
+      category = className ?? "Default"
+      collection = components[0]
+      name = ""
     }
+    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+  }
 }
 
 //MARK: - Extenstions
-extension UIColor: Tweakable {}
+extension UIColor: Tweakable {
+  public func store(key: String) {
+    let stringValue = self.hexString()
+    UserDefaults.standard.set(stringValue, forKey: key)
+  }
+}
 extension String: Tweakable {}
 extension Bool: Tweakable {}
-extension Int: Tweakable {}
+extension Int: Tweakable {
+  public func isValid(min: Int?, max: Int?) -> Bool {
+    if let min = min, min > self {
+      return false
+    }
+    if let max = max, max < self {
+      return false
+    }
+    return true
+  }
+}
+extension Float: Tweakable {
+  public func isValid(min: Float?, max: Float?) -> Bool {
+    if let min = min, min > self {
+      return false
+    }
+    if let max = max, max < self {
+      return false
+    }
+    return true
+  }
+}
+extension CGFloat: Tweakable {
+  public func isValid(min: CGFloat?, max: CGFloat?) -> Bool {
+    if let min = min, min > self {
+      return false
+    }
+    if let max = max, max < self {
+      return false
+    }
+    return true
+  }
+  
+  public func store(key: String) {
+    UserDefaults.standard.set(Float(self), forKey: key)
+  }
+}
+extension Double: Tweakable {
+  public func isValid(min: Double?, max: Double?) -> Bool {
+    if let min = min, min > self {
+      return false
+    }
+    if let max = max, max < self {
+      return false
+    }
+    return true
+  }
+}

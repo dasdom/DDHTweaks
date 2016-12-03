@@ -14,7 +14,8 @@ class ViewController: UIViewController {
   @IBOutlet weak var button: UIButton!
   
   override func viewDidLoad() {
-    20.tweak("Main View", collection: "Text", name: "Size", min: 10, max: 40) { tweak in
+    20.tweak("Text/Size", min: 10, max: 40) { tweak in
+      print(tweak)
       self.label.font = UIFont.systemFont(ofSize: CGFloat(tweak.currentValue!))
     }
 //    DDHTweak.value(category: "Main View", collection: "Text", name: "Size", defaultValue: 20, min: 10, max: 40) { tweak in
@@ -25,16 +26,12 @@ class ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    let textColor = UIColor.black.tweak("Main View", collection: "Text", name: "Color")
-    label.textColor = textColor
+    label.textColor = UIColor.black.tweak("Text/Color")
     
-    let backgroundColor = UIColor.white.tweak("Main View", collection: "Background", name: "Color")
-    view.backgroundColor = backgroundColor
+    view.backgroundColor = UIColor.white.tweak("Background/Color")
     
-    let text = "Hello".tweak("Main View", collection: "Text", name: "Text")
-    label.text = text
+    label.text = "Hello".tweak("Text/Text")
     
-    let showButton = false.tweak("Main View", collection: "Button", name: "Show")
-    button.isHidden = !showButton
+    button.isHidden = !false.tweak("Button/Show")
   }
 }
