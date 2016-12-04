@@ -46,7 +46,7 @@ public class ShakeableWindow: UIWindow {
     #if (arch(i386) || arch(x86_64)) && os(iOS)
       return true
     #else
-      return self.isShaking && UIApplication.sharedApplication().applicationState == .Active
+      return self.isShaking && UIApplication.shared.applicationState == .active
     #endif
   }
   
