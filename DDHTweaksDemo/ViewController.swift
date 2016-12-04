@@ -1,7 +1,3 @@
-//
-//  ViewController.swift
-//  DDHTweaksDemo
-//
 //  Created by dasdom on 24.01.15.
 //  Copyright (c) 2015 Dominik Hauser. All rights reserved.
 //

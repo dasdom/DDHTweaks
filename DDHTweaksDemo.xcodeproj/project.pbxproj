@@ -12,6 +12,7 @@
 		F21721A51DF36D2300D88986 /* DDHTweaks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F217219D1DF36D2300D88986 /* DDHTweaks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F21721AA1DF36D9100D88986 /* DDHTweaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA768B1A73D1B000D7B952 /* DDHTweaks.swift */; };
 		F21721AB1DF36D9100D88986 /* DDHTweakUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA768D1A73D4CE00D7B952 /* DDHTweakUserInterface.swift */; };
+		F21721AD1DF40A8700D88986 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21721AC1DF40A8700D88986 /* LoginViewController.swift */; };
 		F2FA766C1A73CEE900D7B952 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA766B1A73CEE900D7B952 /* AppDelegate.swift */; };
 		F2FA766E1A73CEE900D7B952 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA766D1A73CEE900D7B952 /* ViewController.swift */; };
 		F2FA76711A73CEE900D7B952 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2FA766F1A73CEE900D7B952 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 		F217219D1DF36D2300D88986 /* DDHTweaks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DDHTweaks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F217219F1DF36D2300D88986 /* DDHTweaks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDHTweaks.h; sourceTree = "<group>"; };
 		F21721A01DF36D2300D88986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F21721AC1DF40A8700D88986 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F2FA76661A73CEE900D7B952 /* DDHTweaksDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDHTweaksDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2FA766A1A73CEE900D7B952 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2FA766B1A73CEE900D7B952 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			children = (
 				F2FA766B1A73CEE900D7B952 /* AppDelegate.swift */,
 				F2FA766D1A73CEE900D7B952 /* ViewController.swift */,
+				F21721AC1DF40A8700D88986 /* LoginViewController.swift */,
 				F2FA766F1A73CEE900D7B952 /* Main.storyboard */,
 				F2FA76721A73CEE900D7B952 /* Images.xcassets */,
 				F2FA76741A73CEE900D7B952 /* LaunchScreen.xib */,
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21721AD1DF40A8700D88986 /* LoginViewController.swift in Sources */,
 				F2FA766E1A73CEE900D7B952 /* ViewController.swift in Sources */,
 				F2FA766C1A73CEE900D7B952 /* AppDelegate.swift in Sources */,
 			);

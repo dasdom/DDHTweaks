@@ -51,13 +51,34 @@ public class ShakeableWindow: UIWindow {
   }
   
   func presentTweaks() {
-    var visibleViewController = self.rootViewController
-    while let presentingViewController = visibleViewController?.presentingViewController {
-      visibleViewController = presentingViewController
-    }
+    let visibleViewController = self.visibleViewController
+//    while let presentingViewController = visibleViewController?.presentingViewController {
+//      visibleViewController = presentingViewController
+//    }
     
     if (visibleViewController is CategoriesTableViewController) == false {
       visibleViewController?.present(UINavigationController(rootViewController: CategoriesTableViewController()), animated: true, completion: nil)
+    }
+  }
+}
+
+//http://stackoverflow.com/a/21848247/498796
+public extension UIWindow {
+  public var visibleViewController: UIViewController? {
+    return UIWindow.getVisibleViewController(from: self.rootViewController)
+  }
+  
+  public static func getVisibleViewController(from viewController: UIViewController?) -> UIViewController? {
+    if let navigationController = viewController as? UINavigationController {
+      return UIWindow.getVisibleViewController(from: navigationController.visibleViewController)
+    } else if let tabBarController = viewController as? UITabBarController {
+      return UIWindow.getVisibleViewController(from: tabBarController.selectedViewController)
+    } else {
+      if let presentedViewController = viewController?.presentedViewController {
+        return UIWindow.getVisibleViewController(from: presentedViewController)
+      } else {
+        return viewController
+      }
     }
   }
 }
@@ -80,7 +101,7 @@ class CategoriesTableViewController: UITableViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(CategoriesTableViewController.dismiss(animated:completion:)))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(CategoriesTableViewController.done))
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(send))
     
@@ -115,7 +136,7 @@ class CategoriesTableViewController: UITableViewController {
     navigationController?.pushViewController(colletionsTableViewController, animated: true)
   }
   
-  func dismiss() {
+  func done() {
     self.dismiss(animated: true, completion: nil)
   }
   
