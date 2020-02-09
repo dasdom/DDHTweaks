@@ -15,8 +15,11 @@ class TweakCollection {
   
   func allTweaks() -> [AnyObject] {
     var tweaks = [AnyObject]()
-    for (_, value) in identifierTweaks {
-      tweaks.append(value)
+    let sortedIdentifiers = identifierTweaks.keys.sorted()
+    for identifier in sortedIdentifiers {
+      if let tweak = identifierTweaks[identifier] {
+        tweaks.append(tweak)
+      }
     }
     return tweaks
   }

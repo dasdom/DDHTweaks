@@ -28,7 +28,7 @@ open class TweakStore {
     for (_, value) in namedCategories {
       categories.append(value)
     }
-    return categories
+    return categories.sorted { $0.name < $1.name }
   }
   
   func addCategory(_ category: TweakCategory) {

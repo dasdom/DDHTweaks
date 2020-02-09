@@ -46,5 +46,6 @@ public extension Tweakable {
       name = ""
     }
     return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+    
   }
 }

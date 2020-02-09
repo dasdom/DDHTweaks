@@ -34,7 +34,6 @@ class CollectionsTableViewController: UITableViewController, UITextFieldDelegate
   }
   
   // MARK: - Table view data source
-  
   override func numberOfSections(in tableView: UITableView) -> Int {
     return collections.count
   }

@@ -18,7 +18,7 @@ class TweakCategory {
     for (_, value) in namedCollection {
       collections.append(value)
     }
-    return collections
+    return collections.sorted { $0.name < $1.name }
   }
   
   func addCollection(_ collection: TweakCollection) {
