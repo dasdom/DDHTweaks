@@ -24,11 +24,11 @@ class TweakCollection {
     return tweaks
   }
   
-  func addTweak<T>(_ tweak: DDHTweak<T>) {
+  func addTweak<T>(_ tweak: Tweak<T>) {
     identifierTweaks[tweak.tweakIdentifier] = tweak
   }
   
-  func removeTweak<T>(_ tweak: DDHTweak<T>) {
+  func removeTweak<T>(_ tweak: Tweak<T>) {
     tweak.remove()
     identifierTweaks.removeValue(forKey: tweak.tweakIdentifier)
   }

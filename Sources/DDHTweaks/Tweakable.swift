@@ -19,11 +19,11 @@ public extension Tweakable {
     UserDefaults.standard.set(self, forKey: key)
   }
   
-  @discardableResult func tweak(_ category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+  @discardableResult func tweak(_ category: String, collection: String, name: String, min: Self? = nil, max: Self? = nil, action: ((Tweak<Self>) -> Void)? = nil) -> Self {
+    return Tweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
   }
   
-  @discardableResult func tweak(_ id: String, file: String = #file, min: Self? = nil, max: Self? = nil, action: ((DDHTweak<Self>) -> Void)? = nil) -> Self {
+  @discardableResult func tweak(_ id: String, file: String = #file, min: Self? = nil, max: Self? = nil, action: ((Tweak<Self>) -> Void)? = nil) -> Self {
     
     guard !id.isEmpty else { fatalError("id is not allowed to be empty") }
     let components = id.components(separatedBy: "/")
@@ -45,7 +45,7 @@ public extension Tweakable {
       collection = components[0]
       name = ""
     }
-    return DDHTweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
+    return Tweak.value(category: category, collection: collection, name: name, defaultValue: self, min: min, max: max, action: action)
     
   }
 }

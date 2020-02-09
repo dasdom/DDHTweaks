@@ -63,19 +63,19 @@ class CategoriesTableViewController: UITableViewController {
       for collection in category.allCollections() {
         for tweak in collection.allTweaks() {
           switch tweak {
-          case let tweak as DDHTweak<Bool>:
+          case let tweak as Tweak<Bool>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<Int>:
+          case let tweak as Tweak<Int>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<Float>:
+          case let tweak as Tweak<Float>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<CGFloat>:
+          case let tweak as Tweak<CGFloat>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<Double>:
+          case let tweak as Tweak<Double>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<String>:
+          case let tweak as Tweak<String>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!)\n"
-          case let tweak as DDHTweak<UIColor>:
+          case let tweak as Tweak<UIColor>:
             messageBody += "\(tweak.tweakIdentifier): \(tweak.currentValue!.hexString())\n"
           default:
             print("")

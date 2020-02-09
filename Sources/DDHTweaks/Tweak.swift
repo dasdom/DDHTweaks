@@ -4,11 +4,11 @@
 
 import UIKit
 
-public class DDHTweak<T: Tweakable> {
+public class Tweak<T: Tweakable> {
   let tweakIdentifier: String
   let name: String
   
-  typealias Action = ((DDHTweak) -> ())
+  typealias Action = ((Tweak) -> ())
   fileprivate var action: Action?
   fileprivate let defaultValue: T
   fileprivate var storedCurrentValue: T?
@@ -101,9 +101,9 @@ public class DDHTweak<T: Tweakable> {
     
     let collection = collectionWithName(collection, categoryName: category)
     
-    var tweak = collection.tweakWithIdentifier(identifier) as? DDHTweak
+    var tweak = collection.tweakWithIdentifier(identifier) as? Tweak
     if tweak == nil {
-      tweak = DDHTweak(identifier: identifier, name: name, defaultValue: defaultValue) as DDHTweak
+      tweak = Tweak(identifier: identifier, name: name, defaultValue: defaultValue) as Tweak
       
       collection.addTweak(tweak!)
     }
