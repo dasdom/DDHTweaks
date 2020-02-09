@@ -28,13 +28,13 @@ public class DDHTweak<T: Tweakable> {
         return
       }
       switch newValue {
-      case is Bool, is Int: fallthrough
-//      case is Int: fallthrough
-      case is Float: fallthrough
-      case is CGFloat: fallthrough
-      case is Double: fallthrough
-      case is String: fallthrough
-      case is UIColor:
+      case is Bool,
+           is Int,
+           is Float,
+           is CGFloat,
+           is Double,
+           is String,
+           is UIColor:
         storedCurrentValue = newValue
         value.store(key: tweakIdentifier)
       default:
