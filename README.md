@@ -4,7 +4,7 @@
 
 Tweak UI elements at runtime to find the perfect values.
 
-
+![](what.gif)
 
 ## What is it?
 
@@ -14,11 +14,24 @@ Tweaks lets you make changes to your iOS app while it is running. This is especi
 
 ### SPM
 
-Add the `DDHTweaks` package.
+Add the `DDHTweaks` package version 1.2.0.
 
 ## Usage
 
-Set the window in AppDelegate:
+If you project has a `SceneDelegate.swift`, replace `scene(_:willConnectTo:options:)` with the following implementation.
+
+```swift
+func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  guard let scene = (scene as? UIWindowScene) else { return }
+  
+  let root = window?.rootViewController
+  window = ShakeableWindow(windowScene: scene)
+  window?.rootViewController = root
+  window?.makeKeyAndVisible()
+}
+```
+
+If you don't have a `SceneDelegate.swift` set the window property in `AppDelegate.swift` to the following line of code.
 
 ```swift
 var window: UIWindow? = ShakeableWindow(frame: UIScreen.main.bounds)
