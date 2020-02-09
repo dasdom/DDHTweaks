@@ -38,12 +38,11 @@ public class DDHTweak<T: Tweakable> {
         storedCurrentValue = newValue
         value.store(key: tweakIdentifier)
       default:
-        assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double, String, UIColor")
+        assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, CGFloat, Double, String, UIColor")
       }
       
       let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
       UserDefaults.standard.set(true, forKey: valueHasBeenSetKey)
-      UserDefaults.standard.synchronize()
       
       if let action = action {
         action(self)
@@ -59,30 +58,20 @@ public class DDHTweak<T: Tweakable> {
     
     let valueHasBeenSetKey = "\(tweakIdentifier).valueHasBeenSet"
     if userDefaults.bool(forKey: valueHasBeenSetKey) == true {
-      if defaultValue is Bool {
-        self.currentValue = UserDefaults.standard.bool(forKey: identifier) as? T
-        print("Bool")
-      } else if defaultValue is Int {
-        self.currentValue = UserDefaults.standard.integer(forKey: identifier) as? T
-        print("Int")
-      } else if defaultValue is Float {
-        self.currentValue = UserDefaults.standard.float(forKey: identifier) as? T
-        print("Float")
-      } else if defaultValue is CGFloat {
-        self.currentValue = UserDefaults.standard.float(forKey: identifier) as? T
-        print("CGFloat")
-      } else if defaultValue is Double {
-        self.currentValue = UserDefaults.standard.double(forKey: identifier) as? T
-        print("Double")
-      } else if defaultValue is String {
-        self.currentValue = UserDefaults.standard.string(forKey: identifier) as? T
-        print("String")
-      } else if defaultValue is UIColor {
-        if let hexString = UserDefaults.standard.string(forKey: identifier) {
+      switch defaultValue {
+      case is Bool,
+           is Int,
+           is Float,
+           is CGFloat,
+           is Double,
+           is String:
+        currentValue = userDefaults.value(forKey: identifier) as? T
+      case is UIColor:
+        if let hexString = userDefaults.string(forKey: identifier) {
           self.currentValue = UIColor.colorFromHex(hexString) as? T
         }
-      } else {
-        assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double or String")
+      default:
+        assert(false, "This is not a valid tweak default value. Use Bool, Int, Float, Double, String, UIColor")
       }
     }
     
@@ -91,16 +80,7 @@ public class DDHTweak<T: Tweakable> {
   
   func remove() {
     UserDefaults.standard.removeObject(forKey: tweakIdentifier)
-    UserDefaults.standard.synchronize()
   }
-  
-  //    class func reset() {
-  //        let store = TweakStore.sharedTweakStore
-  //
-  //        store.removeAllCategories()
-  //        NSUserDefaults.resetStandardUserDefaults()
-  //    }
-  
   /**
    Creates a tweak if it is not already created and returns the current value. If the current value isn't set yet it
    returns the default value. The value of a tweak is stored in NSUserDefauls and survives relaunch of the app.
@@ -142,19 +122,19 @@ public class DDHTweak<T: Tweakable> {
     return (tweak!.currentValue ?? tweak!.defaultValue) as T
   }
   
-  //    class func removeForCategory(categoryName: String, collectionName: String, name: String) {
-  //        let identifier = categoryName.lowercaseString + "." + collectionName.lowercaseString + "." + name
-  //
-  //        let collection = collectionWithName(collectionName, categoryName: categoryName)
-  //
-  //        if let tweak = collection.tweakWithIdentifier(identifier) as Tweak? {
-  //            tweak.remove()
-  //        }
-  //
-  //    }
   
+  /// Get the collection for a given name and a given category name.
+  ///
+  /// First the category for that name is fetched. If there is no category for
+  /// that name, it is created and added to the tweaks store.
+  /// Second the collection of that name is fetched. If there is no collection
+  /// for that name, it is created and added to the category.
+  ///
+  /// - Parameters:
+  ///   - collectionName: name of the collection
+  ///   - categoryName: name of the category
   class func collectionWithName(_ collectionName: String, categoryName: String) -> TweakCollection {
-    let store = TweakStore.sharedTweakStore
+    let store = TweakStore.shared
     
     var category = store.categoryWithName(categoryName)
     if category == nil {
